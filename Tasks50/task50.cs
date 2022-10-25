@@ -9,12 +9,21 @@
 
 Console.Clear();
 
-int rows = EnterSizeOfArrayOrSeachRow("Введите количество строк двумерного массива: ", "Ошибка ввода!");
-int columns = EnterSizeOfArrayOrSeachRow("Введите количество столбцов двумерного массива: ", "Ошибка ввода!");
+int rows = 0;
+int columns = 0;
+for(;;)
+{
+    rows = EnterSizeOfArrayOrSeachRow("Введите количество строк двумерного массива: ", "Ошибка ввода!");
+    columns = EnterSizeOfArrayOrSeachRow("Введите количество столбцов двумерного массива: ", "Ошибка ввода!");
+    if(rows < 0 || columns < 0) //Проверяем правильность ввода колтчества строк и столбцов
+        Console.WriteLine("Ошибка ввода!");
+    else
+    break;  
+}
 
 int minValue = 0;
 int maxValue = 0;
-while(maxValue - minValue <= 0)
+while(maxValue <= minValue)
 {
     minValue = EnterRangeOfArray("Введите минимальное значение массива: ", "Ошибка ввода!");
     maxValue = EnterRangeOfArray("Введите максимальное значение массива: ", "Ошибка ввода!");
@@ -37,12 +46,13 @@ static int EnterSizeOfArrayOrSeachRow(string message, string messageError)
     while (true)
     {
         Console.Write(message);
-        bool isCorrect = int.TryParse(Console.ReadLine() ?? "", out int mn) && mn > 0;
+        bool isCorrect = int.TryParse(Console.ReadLine() ?? "", out int mn);
         if(isCorrect)
             return mn;
         Console.WriteLine(messageError);
     }
 }
+
 //----------------------------------------------------------------------------
 //Функция возвращает границы диапазона массива
 static int EnterRangeOfArray(string message, string errorMessage)
@@ -81,7 +91,7 @@ static void PrintResult(int sR, int sC, int m, int n, int[,] arr)
     {
         for(int j = 0; j < n; j++)
         {
-            Console.Write($"{arr[i, j]} ");
+            Console.Write("{0}\t", arr[i, j]);  //Выводим массив красиво
         }
         Console.WriteLine();
     }
